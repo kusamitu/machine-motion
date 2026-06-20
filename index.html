@@ -72,9 +72,10 @@
       #speed-val { flex: 0 0 48px; text-align: right; font-variant-numeric: tabular-nums; font-size: 13px; }
       @media (max-width: 860px) { .viewer { grid-template-columns: 1fr; } #stage { aspect-ratio: 16 / 9; } }
       .publish-period { color: #d92b2b; font-size: 13px; font-weight: 600; }
-      .admin-open { position: fixed; top: 0; right: 0; width: 48px; height: 40px; padding: 0; background: transparent; border: none; cursor: pointer; z-index: 50; }
+      .admin-open { position: fixed; top: 0; right: 0; width: 48px; height: 40px; padding: 0; background: transparent; border: none; cursor: pointer; z-index: 130; }
       .admin-open:hover:not(:disabled) { border: none; }
       .overlay { position: fixed; inset: 0; background: rgba(20,28,40,0.55); display: none; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
+      #admin-overlay { z-index: 140; }
       .overlay.show { display: flex; }
       .modal { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; max-width: 560px; width: 100%; max-height: 86vh; overflow: auto; box-shadow: 0 12px 40px rgba(0,0,0,0.25); }
       .modal h2 { margin: 0 0 14px; font-size: 17px; }
