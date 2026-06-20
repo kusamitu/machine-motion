@@ -592,6 +592,7 @@
         }
         function renderState(st) {
           els.playBtn.textContent = st.playing ? "⏸ 一時停止" : "▶ 再生";
+          els.playBtn.classList.toggle("is-pause", st.playing);
           const stepOnly = st.mode === "step";
           els.prevBtn.disabled = !stepOnly || st.stepIndex <= 0;
           els.nextBtn.disabled = !stepOnly || st.stepIndex >= st.stepCount - 1;
