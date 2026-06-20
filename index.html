@@ -614,7 +614,9 @@
         els.nextBtn.addEventListener("click", () => engine.nextStep());
         els.modeCont.addEventListener("click", () => engine.setMode("continuous"));
         els.modeStep.addEventListener("click", () => engine.setMode("step"));
-        els.speed.addEventListener("input", () => { const v = Number(els.speed.value); engine.setSpeed(v); els.speedVal.textContent = "×" + v.toFixed(2); });
+        const SPEED_SCALE = 0.75; // スライダー1.00倍を実速度0.75倍として再生
+        els.speed.addEventListener("input", () => { const v = Number(els.speed.value); engine.setSpeed(v * SPEED_SCALE); els.speedVal.textContent = "×" + v.toFixed(2); });
+        engine.setSpeed(Number(els.speed.value) * SPEED_SCALE);
         renderStepInfo(0);
         renderState(engine.getState());
         els.speedVal.textContent = "×" + Number(els.speed.value).toFixed(2);
