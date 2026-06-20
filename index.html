@@ -545,12 +545,13 @@
         const plateBotEl = svg.querySelector("#plate-bot");
         function updatePlate() {
           if (!plateFillEl) return;
-          const kb = clamp01(getTranslate("#upper-cutter-mover").y / 43.75);
+          // 板の押し下げ量はクランプ位置で決まる。クランプ⇔カッター中心は水平、
+          // カッター中心⇔ガイドロールはS字曲線。上カッター刃の昇降は板形状に影響させない。
           const cb = clamp01(getTranslate("#upper-clamp-head").y / 41.5);
           const xClamp = PLATE.xClampBase + getTranslate("#clamp-carriage").x;
-          plateFillEl.setAttribute("d", plateFill(cb, kb, xClamp));
-          plateTopEl.setAttribute("d", plateEdge(PLATE.tN, cb, kb, xClamp));
-          plateBotEl.setAttribute("d", plateEdge(PLATE.bN, cb, kb, xClamp));
+          plateFillEl.setAttribute("d", plateFill(cb, cb, xClamp));
+          plateTopEl.setAttribute("d", plateEdge(PLATE.tN, cb, cb, xClamp));
+          plateBotEl.setAttribute("d", plateEdge(PLATE.bN, cb, cb, xClamp));
         }
         engine.afterRender = updatePlate;
         updatePlate();
