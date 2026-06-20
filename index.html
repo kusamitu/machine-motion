@@ -456,8 +456,8 @@
               { "target": "#pinch-roll-bottom", "type": "transform", "property": "translateY", "from": 0, "to": 23, "duration": 700, "easing": "easeInOutCubic" },
               { "target": "#upper-clamp-head", "type": "transform", "property": "translateY", "from": 0, "to": 41.5, "duration": 700, "delay": 700, "easing": "easeInOutCubic" }
             ] },
-          { "id": "cutter-engage", "no": 3, "name": "カッター回転・上カッター下降",
-            "description": "上下カッターが回転を開始し、油圧シリンダーで上カッターが下降する。上カッターが板を下カッターへ押し付け、板が凹形に湾曲して板上面が上カッター・板下面が下カッターに当たる。",
+          { "id": "cutter-engage", "no": 3, "name": "カッター回転・上カッター下降", "auto": true,
+            "description": "上下カッターが回転を開始し、油圧シリンダで上カッターが下降する。上カッターと下カッターは、板厚分の間隔を保って、板材を挟む形になる。隙間は、スペーサーによって事前に設定する。",
             "motions": [
               { "target": "#upper-cutter-blade", "type": "transform", "property": "rotate", "from": 0, "to": 360, "duration": 800, "easing": "linear", "pivot": [600, 256.1], "repeat": -1 },
               { "target": "#lower-cutter-blade", "type": "transform", "property": "rotate", "from": 0, "to": -360, "duration": 800, "easing": "linear", "pivot": [600, 369.9], "repeat": -1 },
