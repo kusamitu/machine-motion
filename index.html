@@ -684,13 +684,8 @@
           const out = {};
           for (const m of MACHINES) {
             const base = Object.assign(blank(), PUBLISHED[m.id] || {});
-            const ov = ls[m.id] || {};
-            out[m.id] = {
-              start: ov.start != null && ov.start !== "" ? ov.start : (ls[m.id] ? ov.start || "" : base.start),
-              end: ov.end != null && ov.end !== "" ? ov.end : (ls[m.id] ? ov.end || "" : base.end),
-              password: ov.password != null && ov.password !== "" ? ov.password : (ls[m.id] ? ov.password || "" : base.password),
-            };
-            if (!ls[m.id]) out[m.id] = Object.assign(blank(), base);
+            // localStorage（管理画面の保存値）があれば、それを優先する
+            out[m.id] = ls[m.id] ? Object.assign(base, ls[m.id]) : base;
           }
           return out;
         }
