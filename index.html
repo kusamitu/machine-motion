@@ -482,14 +482,20 @@
               { "target": "#chips", "type": "transform", "property": "translateX", "from": 0, "to": -55, "duration": 700, "delay": 1000, "easing": "easeOutCubic" },
               { "target": "#chips", "type": "transform", "property": "translateY", "from": 0, "to": 16, "duration": 700, "delay": 1000, "easing": "easeOutCubic" }
             ] },
-          { "id": "cutter-retract", "no": 5, "name": "上カッター上昇",
-            "description": "上カッターが上昇し、板の湾曲が元に戻る。上下カッターは回転を継続したままとする。",
+          { "id": "cutter-retract", "no": 5, "name": "上カッター上昇・クランプ復帰", "auto": true,
+            "description": "上カッターが上昇し、上下カッターは回転を停止する。クランプを開放し、クランプはホーム位置へ戻る。",
             "motions": [
               { "target": "#upper-cutter-blade", "type": "transform", "property": "rotate", "from": 0, "to": 360, "duration": 800, "easing": "linear", "pivot": [600, 256.1], "repeat": -1 },
               { "target": "#lower-cutter-blade", "type": "transform", "property": "rotate", "from": 0, "to": -360, "duration": 800, "easing": "linear", "pivot": [600, 369.9], "repeat": -1 },
               { "target": "#upper-cutter-mover", "type": "transform", "property": "translateY", "from": 43.75, "to": 0, "duration": 800, "easing": "easeInOutCubic" },
-              { "target": "#bead", "type": "transform", "property": "translateY", "from": 4.75, "to": 0, "duration": 600, "easing": "easeInOutCubic" },
-              { "target": "#chips", "type": "opacity", "from": 0.95, "to": 0, "duration": 500, "easing": "easeInCubic" }
+              { "target": "#chips", "type": "opacity", "from": 0.95, "to": 0, "duration": 500, "easing": "easeInCubic" },
+              { "target": "#upper-clamp-head", "type": "transform", "property": "translateY", "from": 41.5, "to": 0, "duration": 600, "delay": 800, "easing": "easeInOutCubic" },
+              { "target": "#bead", "type": "transform", "property": "translateY", "from": 4.75, "to": 0, "duration": 600, "delay": 800, "easing": "easeInOutCubic" },
+              { "target": "#upper-clamp-head", "type": "transform", "property": "translateX", "from": -120, "to": 0, "duration": 700, "delay": 1400, "easing": "easeInOutCubic" },
+              { "target": "#clamp-carriage", "type": "transform", "property": "translateX", "from": -120, "to": 0, "duration": 700, "delay": 1400, "easing": "easeInOutCubic" },
+              { "target": "#lower-clamp", "type": "transform", "property": "translateX", "from": -120, "to": 0, "duration": 700, "delay": 1400, "easing": "easeInOutCubic" },
+              { "target": "#clamp-labels", "type": "transform", "property": "translateX", "from": -120, "to": 0, "duration": 700, "delay": 1400, "easing": "easeInOutCubic" },
+              { "target": "#traverse-rod", "type": "attr", "property": "width", "from": 5, "to": 125, "duration": 700, "delay": 1400, "easing": "easeInOutCubic" }
             ] },
           { "id": "release-feed-out", "no": 6, "name": "クランプ解放・次工程へ送り",
             "description": "クランプを解放し、ピンチロールの上ロールが下降・上下ロールが回転して中継ぎ部を次工程（両端の手仕上げ）へ送る。クランプスタンドはトラバースのホーム位置へ戻る。",
