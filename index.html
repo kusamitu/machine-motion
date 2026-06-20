@@ -449,11 +449,12 @@
               { "target": "#pinch-roll-bottom", "type": "transform", "property": "rotate", "from": 0, "to": -360, "duration": 900, "easing": "linear", "pivot": [900, 358.75], "repeat": -1 },
               { "target": "#bead", "type": "transform", "property": "translateX", "from": 0, "to": -160, "duration": 2200, "easing": "easeInOutCubic" }
             ] },
-          { "id": "clamp-down", "no": 2, "name": "上クランプ下降・クランプ",
-            "description": "ピンチロールの上ロールが上昇して板を解放し、上プレート中央の油圧シリンダーで上クランプが下降して板材を固定する。",
+          { "id": "clamp-down", "no": 2, "name": "上クランプ下降・クランプ", "auto": true,
+            "description": "シャー＆ウェルダーのピンチロールを手動で開放し、油圧シリンダで上クランプが下降し、板材をクランプする。",
             "motions": [
               { "target": "#pinch-roll-top-mover", "type": "transform", "property": "translateY", "from": 0, "to": -23, "duration": 700, "easing": "easeInOutCubic" },
-              { "target": "#upper-clamp-head", "type": "transform", "property": "translateY", "from": 0, "to": 41.5, "duration": 700, "easing": "easeInOutCubic" }
+              { "target": "#pinch-roll-bottom", "type": "transform", "property": "translateY", "from": 0, "to": 23, "duration": 700, "easing": "easeInOutCubic" },
+              { "target": "#upper-clamp-head", "type": "transform", "property": "translateY", "from": 0, "to": 41.5, "duration": 700, "delay": 700, "easing": "easeInOutCubic" }
             ] },
           { "id": "cutter-engage", "no": 3, "name": "カッター回転・上カッター下降",
             "description": "上下カッターが回転を開始し、油圧シリンダーで上カッターが下降する。上カッターが板を下カッターへ押し付け、板が凹形に湾曲して板上面が上カッター・板下面が下カッターに当たる。",
