@@ -667,5 +667,145 @@
         els.speedVal.textContent = "×" + Number(els.speed.value).toFixed(2);
       })();
     </script>
+    <script>
+      // 公開期間・アクセスパスワード・管理画面
+      (function () {
+        const THIS_MACHINE = "bead-remover";
+        const ADMIN_PW = "machinemotion";
+        const MACHINES = [{ id: "bead-remover", name: "ビードリムーバー" }];
+        // 全閲覧者へ適用する公開設定（管理画面の「設定をエクスポート」で得たJSONをここへ貼り付けて再デプロイ）
+        const PUBLISHED = { "bead-remover": { start: "", end: "", password: "" } };
+        const LS_KEY = "mm_settings";
+
+        function blank() { return { start: "", end: "", password: "" }; }
+        function loadSettings() {
+          let ls = {};
+          try { ls = JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch (e) { ls = {}; }
+          const out = {};
+          for (const m of MACHINES) {
+            const base = Object.assign(blank(), PUBLISHED[m.id] || {});
+            const ov = ls[m.id] || {};
+            out[m.id] = {
+              start: ov.start != null && ov.start !== "" ? ov.start : (ls[m.id] ? ov.start || "" : base.start),
+              end: ov.end != null && ov.end !== "" ? ov.end : (ls[m.id] ? ov.end || "" : base.end),
+              password: ov.password != null && ov.password !== "" ? ov.password : (ls[m.id] ? ov.password || "" : base.password),
+            };
+            if (!ls[m.id]) out[m.id] = Object.assign(blank(), base);
+          }
+          return out;
+        }
+        function saveSettings(s) { localStorage.setItem(LS_KEY, JSON.stringify(s)); }
+
+        function fmt(d) { if (!d) return ""; const p = d.split("-"); return p.length === 3 ? p[0] + "/" + p[1] + "/" + p[2] : d; }
+        function periodText(cfg) { if (!cfg.start && !cfg.end) return ""; return "公開期間 " + (cfg.start ? fmt(cfg.start) : "—") + " 〜 " + (cfg.end ? fmt(cfg.end) : "—"); }
+        function parseDate(d) { if (!d) return null; const p = d.split("-").map(Number); return new Date(p[0], p[1] - 1, p[2]); }
+        function accessState(cfg) {
+          const now = new Date();
+          const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          const start = parseDate(cfg.start), end = parseDate(cfg.end);
+          if (start && today < start) return { ok: false, msg: "このページはまだ公開されていません。" };
+          if (end) { const endIncl = new Date(end.getFullYear(), end.getMonth(), end.getDate() + 1); if (now >= endIncl) return { ok: false, msg: "このページの公開期間は終了しました。" }; }
+          return { ok: true };
+        }
+
+        const els = {
+          period: document.getElementById("publish-period"),
+          adminOpen: document.getElementById("admin-open"),
+          adminOverlay: document.getElementById("admin-overlay"),
+          adminMachines: document.getElementById("admin-machines"),
+          adminSave: document.getElementById("admin-save"),
+          adminClose: document.getElementById("admin-close"),
+          adminExport: document.getElementById("admin-export"),
+          gateOverlay: document.getElementById("gate-overlay"),
+          gateMessage: document.getElementById("gate-message"),
+          gatePwWrap: document.getElementById("gate-pw-wrap"),
+          gatePw: document.getElementById("gate-pw"),
+          gateSubmit: document.getElementById("gate-submit"),
+          main: document.querySelector("main.viewer"),
+        };
+
+        let settings = loadSettings();
+        function refreshPeriodLabel() { els.period.textContent = periodText(settings[THIS_MACHINE]); }
+
+        function applyGate() {
+          const cfg = settings[THIS_MACHINE];
+          const st = accessState(cfg);
+          const authed = sessionStorage.getItem("mm_auth_" + THIS_MACHINE) === "1";
+          if (!st.ok) {
+            els.gateMessage.innerHTML = st.msg + (periodText(cfg) ? '<br><span class="gate-period">' + periodText(cfg) + "</span>" : "");
+            els.gatePwWrap.style.display = "none";
+            els.gateOverlay.classList.add("show");
+            els.main.style.visibility = "hidden";
+            return;
+          }
+          if (cfg.password && !authed) {
+            els.gateMessage.textContent = "このページはパスワードで保護されています。";
+            els.gatePwWrap.style.display = "";
+            els.gateOverlay.classList.add("show");
+            els.main.style.visibility = "hidden";
+            setTimeout(function () { els.gatePw.focus(); }, 50);
+            return;
+          }
+          els.gateOverlay.classList.remove("show");
+          els.main.style.visibility = "";
+        }
+
+        els.gateSubmit.addEventListener("click", function () {
+          if (els.gatePw.value === settings[THIS_MACHINE].password) {
+            sessionStorage.setItem("mm_auth_" + THIS_MACHINE, "1");
+            els.gatePw.value = "";
+            applyGate();
+          } else { alert("パスワードが違います。"); }
+        });
+        els.gatePw.addEventListener("keydown", function (e) { if (e.key === "Enter") els.gateSubmit.click(); });
+
+        function collectForm() {
+          const next = loadSettings();
+          els.adminMachines.querySelectorAll("input[data-mid]").forEach(function (inp) {
+            next[inp.dataset.mid][inp.dataset.k] = inp.value.trim();
+          });
+          return next;
+        }
+        function buildAdminForm() {
+          els.adminMachines.innerHTML = "";
+          MACHINES.forEach(function (m) {
+            const cfg = settings[m.id];
+            const div = document.createElement("div");
+            div.className = "machine-block";
+            div.innerHTML = '<h3>' + m.name + '</h3>' +
+              '<div class="row2">' +
+              '<div><label>公開開始日</label><input type="date" data-mid="' + m.id + '" data-k="start" value="' + cfg.start + '"></div>' +
+              '<div><label>公開終了日</label><input type="date" data-mid="' + m.id + '" data-k="end" value="' + cfg.end + '"></div>' +
+              '</div>' +
+              '<label>アクセスパスワード</label><input type="text" data-mid="' + m.id + '" data-k="password" value="' + cfg.password + '" autocomplete="off">';
+            els.adminMachines.appendChild(div);
+          });
+        }
+        els.adminOpen.addEventListener("click", function () {
+          const pw = prompt("管理画面のパスワードを入力してください");
+          if (pw === null) return;
+          if (pw !== ADMIN_PW) { alert("パスワードが違います。"); return; }
+          settings = loadSettings();
+          buildAdminForm();
+          els.adminOverlay.classList.add("show");
+        });
+        els.adminClose.addEventListener("click", function () { els.adminOverlay.classList.remove("show"); });
+        els.adminSave.addEventListener("click", function () {
+          const next = collectForm();
+          saveSettings(next);
+          settings = next;
+          refreshPeriodLabel();
+          applyGate();
+          els.adminOverlay.classList.remove("show");
+          alert("保存しました。");
+        });
+        els.adminExport.addEventListener("click", function () {
+          prompt("以下のJSONをコピーし、ページ内の PUBLISHED に貼り付けて再デプロイすると全閲覧者へ反映されます。", JSON.stringify(collectForm(), null, 2));
+        });
+
+        refreshPeriodLabel();
+        applyGate();
+      })();
+    </script>
   </body>
 </html>
