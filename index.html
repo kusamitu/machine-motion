@@ -419,6 +419,7 @@
           this.localTime += dt;
           const step = this.steps[this.stepIndex]; const dur = this._durations[this.stepIndex];
           this._renderStepAt(step, Math.min(this.localTime, dur));
+          if (this.afterRender) this.afterRender();
           if (this.localTime >= dur) {
             this._emit("stepended", this.stepIndex);
             if (this.mode === "step") { this.playing = false; this._emit("state", this.getState()); return; }
