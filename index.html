@@ -382,6 +382,7 @@
           this._restoreSnapshot();
           for (let i = 0; i < index; i++) this._renderStepAt(this.steps[i], this._durations[i]);
           if (this.steps[index]) this._renderStepAt(this.steps[index], 0);
+          if (this.afterRender) this.afterRender();
         }
         play() {
           if (this.playing) return; if (!this.steps.length) return;
