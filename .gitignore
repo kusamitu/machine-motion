@@ -1,5 +1,11 @@
-# 公開リポジトリには index.html（自己完結アニメーション）のみを含める。
+# 公開リポジトリには公開ページのみを含める。
+#  - ルート index.html（機械一覧ポータル）
+#  - bead-remover/index.html（ビードリムーバー動作説明・自己完結）
 # 図面PDF・設計資料・モジュールソース等の機密/関連ファイルは追跡・公開しない。
+# 将来の機械は <machine-id>/index.html を追加し、本ファイルに同様の許可行を足す。
 /*
-!index.html
-!.gitignore
+!/.gitignore
+!/index.html
+!/bead-remover/
+/bead-remover/*
+!/bead-remover/index.html
