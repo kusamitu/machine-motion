@@ -150,15 +150,10 @@
   <text x="523" y="271" text-anchor="middle" fill="#586478" font-size="12">切粉受け</text>
   <line x1="523" y1="274" x2="523" y2="278" stroke="#768294" stroke-width="1"/>
 
-  <g id="plate-flat">
-    <rect x="-1500" y="327.25" width="4000" height="5.5" fill="url(#plateGrad)"/>
-    <line x1="-1500" y1="327.25" x2="2500" y2="327.25" stroke="#2b313a" stroke-width="0.8"/>
-    <line x1="-1500" y1="332.75" x2="2500" y2="332.75" stroke="#2b313a" stroke-width="0.8"/>
-  </g>
-  <g id="plate-curved" style="opacity:0">
-    <path d="M-1500,327.25 L520,327.25 Q600,336.75 680,327.25 L2500,327.25 L2500,332.75 L680,332.75 Q600,342.25 520,332.75 L-1500,332.75 Z" fill="url(#plateGrad)"/>
-    <path d="M-1500,327.25 L520,327.25 Q600,336.75 680,327.25 L2500,327.25" fill="none" stroke="#2b313a" stroke-width="0.8"/>
-    <path d="M-1500,332.75 L520,332.75 Q600,342.25 680,332.75 L2500,332.75" fill="none" stroke="#2b313a" stroke-width="0.8"/>
+  <g id="plate">
+    <path id="plate-fill" fill="url(#plateGrad)"/>
+    <path id="plate-top" fill="none" stroke="#2b313a" stroke-width="0.8"/>
+    <path id="plate-bot" fill="none" stroke="#2b313a" stroke-width="0.8"/>
   </g>
 
   <g id="air-blow">
