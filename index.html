@@ -497,18 +497,13 @@
               { "target": "#clamp-labels", "type": "transform", "property": "translateX", "from": -120, "to": 0, "duration": 700, "delay": 1400, "easing": "easeInOutCubic" },
               { "target": "#traverse-rod", "type": "attr", "property": "width", "from": 5, "to": 125, "duration": 700, "delay": 1400, "easing": "easeInOutCubic" }
             ] },
-          { "id": "release-feed-out", "no": 6, "name": "クランプ解放・次工程へ送り",
-            "description": "クランプを解放し、ピンチロールの上ロールが下降・上下ロールが回転して中継ぎ部を次工程（両端の手仕上げ）へ送る。クランプスタンドはトラバースのホーム位置へ戻る。",
+          { "id": "release-feed-out", "no": 6, "name": "次工程へ送り",
+            "description": "シャー＆ウェルダーのピンチロールで中継ぎ部を次工程（両端の手仕上げ）へ送る。",
             "motions": [
               { "target": "#pinch-roll-top-mover", "type": "transform", "property": "translateY", "from": -23, "to": 0, "duration": 700, "easing": "easeInOutCubic" },
+              { "target": "#pinch-roll-bottom", "type": "transform", "property": "translateY", "from": 23, "to": 0, "duration": 700, "easing": "easeInOutCubic" },
               { "target": "#pinch-roll-top-blade", "type": "transform", "property": "rotate", "from": 0, "to": 360, "duration": 900, "easing": "linear", "pivot": [900, 301.25], "repeat": -1 },
               { "target": "#pinch-roll-bottom", "type": "transform", "property": "rotate", "from": 0, "to": -360, "duration": 900, "easing": "linear", "pivot": [900, 358.75], "repeat": -1 },
-              { "target": "#upper-clamp-head", "type": "transform", "property": "translateY", "from": 41.5, "to": 0, "duration": 700, "easing": "easeInOutCubic" },
-              { "target": "#upper-clamp-head", "type": "transform", "property": "translateX", "from": -120, "to": 0, "duration": 700, "delay": 700, "easing": "easeInOutCubic" },
-              { "target": "#clamp-carriage", "type": "transform", "property": "translateX", "from": -120, "to": 0, "duration": 700, "delay": 700, "easing": "easeInOutCubic" },
-              { "target": "#lower-clamp", "type": "transform", "property": "translateX", "from": -120, "to": 0, "duration": 700, "delay": 700, "easing": "easeInOutCubic" },
-              { "target": "#clamp-labels", "type": "transform", "property": "translateX", "from": -120, "to": 0, "duration": 700, "delay": 700, "easing": "easeInOutCubic" },
-              { "target": "#traverse-rod", "type": "attr", "property": "width", "from": 5, "to": 125, "duration": 700, "delay": 700, "easing": "easeInOutCubic" },
               { "target": "#bead", "type": "transform", "property": "translateX", "from": -280, "to": -660, "duration": 2200, "delay": 400, "easing": "easeInOutCubic" }
             ] }
         ]
