@@ -507,6 +507,48 @@
         const anim = ANIMATION;
         document.title = (anim.meta && anim.meta.title) || "機械動作説明";
         const engine = new AnimationEngine(svg, anim);
+
+        // --- 板材プロファイルの動的生成 ---
+        // クランプ／カッターの押し下げ量とクランプ位置から、板の通り線を毎フレーム再構築する。
+        // クランプ⇔カッター間は水平、両ガイドロールへ向かう区間は水平接線のS字曲線で滑らかに繋ぐ。
+        const PLATE = { tN: 327.25, bN: 332.75, dip: 4.75, xExit: 215, xCut: 600, xEntry: 692, xClampBase: 435, L: -2000, R: 2200 };
+        const sCurve = (xa, ya, xb, yb) => { const m = (xa + xb) / 2; return `C ${m} ${ya} ${m} ${yb} ${xb} ${yb} `; };
+        function plateEdge(yBase, cb, kb, xClamp) {
+          const { dip, xExit, xCut, xEntry, L, R } = PLATE;
+          const yC = yBase + dip * cb, yK = yBase + dip * kb;
+          return `M ${L} ${yBase} L ${xExit} ${yBase} ` + sCurve(xExit, yBase, xClamp, yC) +
+                 `L ${xCut} ${yK} ` + sCurve(xCut, yK, xEntry, yBase) + `L ${R} ${yBase}`;
+        }
+        function plateFill(cb, kb, xClamp) {
+          const { tN, bN, dip, xExit, xCut, xEntry, L, R } = PLATE;
+          const tC = tN + dip * cb, tK = tN + dip * kb, bC = bN + dip * cb, bK = bN + dip * kb;
+          let d = `M ${L} ${tN} L ${xExit} ${tN} ` + sCurve(xExit, tN, xClamp, tC) +
+                  `L ${xCut} ${tK} ` + sCurve(xCut, tK, xEntry, tN) + `L ${R} ${tN} `;
+          d += `L ${R} ${bN} L ${xEntry} ${bN} ` + sCurve(xEntry, bN, xCut, bK) +
+               `L ${xClamp} ${bC} ` + sCurve(xClamp, bC, xExit, bN) + `L ${L} ${bN} Z`;
+          return d;
+        }
+        function getTranslate(sel) {
+          const el = svg.querySelector(sel); if (!el) return { x: 0, y: 0 };
+          const tr = el.getAttribute("transform"); if (!tr) return { x: 0, y: 0 };
+          const m = /translate\(\s*(-?[\d.]+)[ ,]+(-?[\d.]+)/.exec(tr);
+          return m ? { x: parseFloat(m[1]), y: parseFloat(m[2]) } : { x: 0, y: 0 };
+        }
+        const clamp01 = (v) => Math.min(Math.max(v, 0), 1);
+        const plateFillEl = svg.querySelector("#plate-fill");
+        const plateTopEl = svg.querySelector("#plate-top");
+        const plateBotEl = svg.querySelector("#plate-bot");
+        function updatePlate() {
+          if (!plateFillEl) return;
+          const kb = clamp01(getTranslate("#upper-cutter-mover").y / 43.75);
+          const cb = clamp01(getTranslate("#upper-clamp-head").y / 41.5);
+          const xClamp = PLATE.xClampBase + getTranslate("#clamp-carriage").x;
+          plateFillEl.setAttribute("d", plateFill(cb, kb, xClamp));
+          plateTopEl.setAttribute("d", plateEdge(PLATE.tN, cb, kb, xClamp));
+          plateBotEl.setAttribute("d", plateEdge(PLATE.bN, cb, kb, xClamp));
+        }
+        engine.afterRender = updatePlate;
+        updatePlate();
         const els = {
           stepList: document.getElementById("step-list"),
           stepName: document.getElementById("step-name"),
