@@ -574,8 +574,8 @@
         sorted.forEach((step) => {
           const realIndex = anim.steps.indexOf(step);
           const li = document.createElement("li");
-          li.className = "step-item"; li.dataset.index = realIndex;
-          li.innerHTML = `<span class="step-no">${step.no || ""}</span><span class="step-label">${step.name || ""}</span>`;
+          li.className = step.auto ? "step-item step-item--auto" : "step-item"; li.dataset.index = realIndex;
+          li.innerHTML = `<span class="step-no">${step.no || ""}</span><span class="step-label">${step.name || ""}</span>${step.auto ? '<span class="auto-tag">自動</span>' : ""}`;
           li.addEventListener("click", () => engine.goToStep(realIndex, false));
           els.stepList.appendChild(li);
         });
