@@ -443,7 +443,7 @@
         "defaults": { "easing": "easeInOutCubic", "interStepDelay": 0 },
         "steps": [
           { "id": "feed-in", "no": 1, "name": "ライン送り・位置決め",
-            "description": "シャー＆ウェルダーのピンチロール（上ロール下降・上下ロール回転）で板材を右から左へ送り、溶接部を上下カッター支持柱のすぐ右側で目視停止させる。",
+            "description": "シャー＆ウェルダーのピンチロールで板材を手動で送り、溶接部を上下カッターの手前に目視で停止させる。",
             "motions": [
               { "target": "#pinch-roll-top-blade", "type": "transform", "property": "rotate", "from": 0, "to": 360, "duration": 900, "easing": "linear", "pivot": [900, 301.25], "repeat": -1 },
               { "target": "#pinch-roll-bottom", "type": "transform", "property": "rotate", "from": 0, "to": -360, "duration": 900, "easing": "linear", "pivot": [900, 358.75], "repeat": -1 },
