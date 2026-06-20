@@ -319,6 +319,33 @@
       </aside>
     </main>
 
+    <div id="gate-overlay" class="overlay">
+      <div class="modal">
+        <h2>アクセス制限</h2>
+        <p id="gate-message" class="gate-msg"></p>
+        <div id="gate-pw-wrap">
+          <label for="gate-pw">パスワード</label>
+          <input id="gate-pw" type="password" autocomplete="off" />
+          <div class="actions">
+            <button id="gate-submit" class="btn-primary">表示する</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="admin-overlay" class="overlay">
+      <div class="modal">
+        <h2>管理画面</h2>
+        <p class="note">公開期間とアクセスパスワードを機械ごとに設定します。空欄にすると未設定（無制限・パスワード無し）になります。<br>※この設定はブラウザに保存されます。すべての閲覧者へ反映するには「設定をエクスポート」したJSONをサイトへ反映してください。</p>
+        <div id="admin-machines"></div>
+        <div class="actions">
+          <button id="admin-export">設定をエクスポート</button>
+          <button id="admin-close">閉じる</button>
+          <button id="admin-save" class="btn-primary">保存</button>
+        </div>
+      </div>
+    </div>
+
     <script>
       const easings = {
         linear: (t) => t,
