@@ -588,8 +588,8 @@
           els.stepDesc.textContent = step.description || "";
           const infoPanel = els.stepDesc.closest(".step-info");
           if (infoPanel) {
-            els.stepDesc.style.fontSize = ""; let fs = 13.5;
-            while (infoPanel.scrollHeight > infoPanel.clientHeight && fs > 9) { fs -= 0.5; els.stepDesc.style.fontSize = fs + "px"; }
+            els.stepDesc.style.fontSize = ""; let fs = 14;
+            while (infoPanel.scrollHeight > infoPanel.clientHeight && fs > 11) { fs -= 0.5; els.stepDesc.style.fontSize = fs + "px"; }
           }
           els.stepList.querySelectorAll(".step-item").forEach((li) => { li.classList.toggle("active", Number(li.dataset.index) === index); });
         }
